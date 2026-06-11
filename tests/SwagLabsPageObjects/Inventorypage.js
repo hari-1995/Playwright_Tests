@@ -14,14 +14,18 @@ class InventoryPage {
     }
 
     async selectProduct(productName) {
-        const products_list = await this.products_List.allTextContents();
-    for (const product of products_list) {
-        if (product === productName) {
-            await this.page.locator(`.inventory_item_name:has-text("${productName}")`).click();
-            console.log(`Clicked on the product: ${productName}`);
-            break;
+        const products = this.products_List;
+        const count = await products.count();
+        for (let i = 0; i < count; i++) {
+            const text = (await products.nth(i).innerText()).trim();
+            if (text === productName) {
+                await products.nth(i).click();
+                console.log(`Clicked on the product: ${productName}`);
+                await this.page.waitForLoadState('networkidle');
+                return;
+            }
         }
-    }   
+        throw new Error(`Product not found: ${productName}`);
     }
 }
 
