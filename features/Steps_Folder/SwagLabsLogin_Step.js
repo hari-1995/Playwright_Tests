@@ -72,3 +72,17 @@ Then('Your navigated to checkout page', async function () {
            this.checkoutPageObj = new CheckoutPage(this.page);
            await this.checkoutPageObj.VerifyCheckoutPage();
          });
+
+Then('Enter First Name as {string} last name as {string} and postal code as {string}', async function (firstName, lastName, postalCode) {
+            await this.checkoutPageObj.EnterCheckoutDetails(firstName, lastName, postalCode);
+          });
+
+Then('Click on the continue button', async function () {
+            await this.checkoutPageObj.ClickContinueButton();
+          });
+
+Then('Your navigated to checkout overview page', { timeout: 60 * 1000 }, async function () {
+            await this.checkoutPageObj.VerifyCheckoutOverviewPage();
+            await this.checkoutPageObj.ClickFinishButton();
+            await this.checkoutPageObj.VerifyFinshPage();
+          });         
