@@ -6,6 +6,7 @@ class SwagLoginPage{
         this.username = this.page.getByPlaceholder("Username");
         this.password = this.page.getByPlaceholder("Password");
         this.loginButton = this.page.getByRole("button",{name: "Login"});
+        this.sort = this.page.locator(".product_sort_container");
     }       
     
     async goto(){
@@ -26,6 +27,8 @@ class SwagLoginPage{
         await this.page.waitForLoadState('networkidle');
         console.log('Title of the page is  --->' + await this.page.title());
         expect(await this.page.title()).toBe('Swag Labs');
+        await expect(this.page.url()).toContain('/inventory.html');
+        await this.sort.selectOption('lohi');
     }
 }
 module.exports = {SwagLoginPage};
